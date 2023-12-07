@@ -1,0 +1,38 @@
+<MudDialog></MudDialog>
+
+<style>
+    .my-custom-class {
+        backdrop-filter: blur(10px);
+    }
+</style>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = default!;
+    [Inject] IDialogService DialogService { get; set; } = default!;
+    [Parameter] public bool IsOpen { get; set; }
+
+    bool _isOpen;
+    IDialogReference? dialogRef;
+
+    protected override void OnParametersSet()
+    {
+        if (_isOpen != IsOpen)
+        {
+            _isOpen = IsOpen;
+
+            if (IsOpen)
+            {
+                dialogRef = DialogService?.Show<Dialog>("Loading...", new DialogOptions
+                    {
+                        DisableBackdropClick = true,
+                        ClassBackground =
+                    "my-custom-class"
+                    });
+            }
+            else
+            {
+                dialogRef?.Close();
+            }
+        }
+    }
+}

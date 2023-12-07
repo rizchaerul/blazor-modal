@@ -1,0 +1,20 @@
+﻿@page "/"
+
+<Dialog IsOpen=isOpen />
+<button @onclick="toggle">Toggle Loading</button>
+
+@code {
+    bool isOpen = false;
+
+    void toggleIsOpen()
+    {
+        isOpen = !isOpen;
+    }
+
+    async Task toggle()
+    {
+        toggleIsOpen();
+        await Task.Delay(2000);
+        toggleIsOpen();
+    }
+}
